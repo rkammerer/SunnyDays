@@ -12,7 +12,8 @@ import com.rika.sunnydays.databinding.WeatherAppWidgetConfigureBinding
 /**
  * The configuration screen for the [WeatherAppWidget] AppWidget.
  */
-class WeatherAppWidgetConfigureActivity : Activity() {
+class WeatherAppWidgetConfigureActivity : Activity()
+{
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
     private lateinit var appWidgetText: EditText
     private var onClickListener = View.OnClickListener {
@@ -34,7 +35,8 @@ class WeatherAppWidgetConfigureActivity : Activity() {
     }
     private lateinit var binding: WeatherAppWidgetConfigureBinding
 
-    public override fun onCreate(icicle: Bundle?) {
+    public override fun onCreate(icicle: Bundle?)
+    {
         super.onCreate(icicle)
 
         // Set the result to CANCELED.  This will cause the widget host to cancel
@@ -44,20 +46,22 @@ class WeatherAppWidgetConfigureActivity : Activity() {
         binding = WeatherAppWidgetConfigureBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        appWidgetText = binding.appwidgetText as EditText
+        appWidgetText = binding.appwidgetText
         binding.addButton.setOnClickListener(onClickListener)
 
         // Find the widget id from the intent.
         val intent = intent
         val extras = intent.extras
-        if (extras != null) {
+        if (extras != null)
+        {
             appWidgetId = extras.getInt(
                 AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID
             )
         }
 
         // If this activity was started with an intent without an app widget ID, finish with an error.
-        if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+        if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID)
+        {
             finish()
             return
         }
@@ -71,7 +75,8 @@ private const val PREFS_NAME = "com.rika.sunnydays.WeatherAppWidget"
 private const val PREF_PREFIX_KEY = "appwidget_"
 
 // Write the prefix to the SharedPreferences object for this widget
-internal fun saveTitlePref(context: Context, appWidgetId: Int, text: String) {
+internal fun saveTitlePref(context: Context, appWidgetId: Int, text: String)
+{
     val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
     prefs.putString(PREF_PREFIX_KEY + appWidgetId, text)
     prefs.apply()
@@ -79,13 +84,15 @@ internal fun saveTitlePref(context: Context, appWidgetId: Int, text: String) {
 
 // Read the prefix from the SharedPreferences object for this widget.
 // If there is no preference saved, get the default from a resource
-internal fun loadTitlePref(context: Context, appWidgetId: Int): String {
+internal fun loadTitlePref(context: Context, appWidgetId: Int): String
+{
     val prefs = context.getSharedPreferences(PREFS_NAME, 0)
     val titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null)
     return titleValue ?: context.getString(R.string.appwidget_text)
 }
 
-internal fun deleteTitlePref(context: Context, appWidgetId: Int) {
+internal fun deleteTitlePref(context: Context, appWidgetId: Int)
+{
     val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
     prefs.remove(PREF_PREFIX_KEY + appWidgetId)
     prefs.apply()
